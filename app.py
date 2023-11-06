@@ -75,4 +75,4 @@ def index():
     return render_template('index.html', transcript=transcript)
 
 if __name__ == "__main__":
-    app.run(debug=True, threaded=True, port=8080)
+    app.run(debug=True, threaded=True, port=5000)
