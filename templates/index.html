@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sound Emotion Recognition</title>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/index.css') }}" />
+</head>
+<body>
+    <nav class="nav">
+        <div class="container">
+            <div class="logo">
+                <a href="#">Sound Emotion Recogniser</a>
+            </div>
+            <div id="mainListDiv" class="main_list">
+            </div>
+            <span class="navTrigger">
+                <i></i>
+                <i></i>
+                <i></i>
+            </span>
+        </div>
+    </nav>
+
+    <section id="about">
+        <h1>Find the emotion of a voice note!</h1>
+        <h2>Upload your recording as a .wav file and you will know your emotion!</h2> 
+        <svg class="arrows" onClick="window.location='#findMood'">
+            <path class="a1" d="M0 0 L30 32 L60 0"></path>
+            <path class="a2" d="M0 20 L30 52 L60 20"></path>
+            <path class="a3" d="M0 40 L30 72 L60 40"></path>
+        </svg>
+        {% if transcript != "" %}
+        <div id="speechTranscriptContainer">
+            <h2 id="speechText" style="color: black;">{{ transcript }}</h2>
+            <img src="/static/images/{{ transcript }}.png" style="padding-top: 10px;" alt="{{ transcript }}">
+            <section id="download">
+                <h3>
+                </h3>
+            </section>
+        </div>
+        {% endif %}
+    </section>
+    <section id="findMood">
+        <div class="upload">
+            <h2>Upload your .wav file</h2>
+            <form method="post" enctype="multipart/form-data">
+
+                <input type="file" name="file" />
+                <br>
+                <input class="button" type="submit" id="submitButton" value="See Results" />
+                <br>
+            </form>
+        </div>
+    </section>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="js/scripts.js"></script>
+    <script>
+        showPopUp=()=>{
+            var timeleft = 10;
+            var downloadTimer = setInterval(function () {
+                if (timeleft <= 0) {
+                    clearInterval(downloadTimer);
+                }
+                document.getElementById("progressBar").value = 10 - timeleft;
+                timeleft -= 1;
+            }, 1000);
+        }
+        $(window).scroll(function () {
+            if ($(document).scrollTop() > 50) {
+                $('.nav').addClass('affix');
+                console.log("OK");
+            } else {
+                $('.nav').removeClass('affix');
+            }
+        });
+        $('.navTrigger').click(function () {
+            $(this).toggleClass('active');
+            console.log("Clicked menu");
+            $("#mainListDiv").toggleClass("show_list");
+            $("#mainListDiv").fadeIn();
+        });
+    </script>
+</body>
+
+</html>
